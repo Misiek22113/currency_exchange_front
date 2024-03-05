@@ -24,8 +24,7 @@ const CurrencyTableRow = ({
   mid: string;
   code: string;
 }) => {
-  const TABLE = "a";
-  const TIME_SPAN = "14";
+  const DAY_SPAN = "14";
   const [currencyData, setCurrencyData] = useState<CurrencyDayData[] | null>(
     null
   );
@@ -40,9 +39,10 @@ const CurrencyTableRow = ({
 
   const getPreviousCurrencyRates = async () => {
     axios
-      .get(
-        `https://api.nbp.pl/api/exchangerates/rates/${TABLE}/${code}/last/${TIME_SPAN}/`
-      )
+      .post(`http://localhost:4000/currency/currencyHistory`, {
+        currencyCode: code,
+        daySpan: DAY_SPAN,
+      })
       .then((response) => {
         response.status === 200 && setCurrencyData(response.data.rates);
       })

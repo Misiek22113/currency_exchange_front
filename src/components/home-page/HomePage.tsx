@@ -61,7 +61,7 @@ const HomePage = () => {
   const getCurrency = async () => {
     setIsCurrencyDataLoading(true);
     axios
-      .get("https://api.nbp.pl/api/exchangerates/tables/a/")
+      .get("http://localhost:4000/currency/currencies")
       .then((response) => {
         console.log(response);
         setCurrencyData(response.data[0].rates);
