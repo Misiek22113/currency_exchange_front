@@ -22,15 +22,9 @@ const GoldSection = () => {
   const [arrayDaysAmount, setArrayDaysAmount] = useState(14);
 
   useEffect(() => {
-    getGoldData();
-  }, []);
-
-  const getGoldData = async () => {
     setIsGoldDataLoading(true);
     axios
-      .get(
-        `https://api.nbp.pl/api/cenyzlota/last/${GOLD_DATA_TIME_SPAN}/?format=json`
-      )
+      .get("http://localhost:4000/gold/price")
       .then((response) => {
         setGoldData(response.data);
       })
@@ -41,7 +35,7 @@ const GoldSection = () => {
       .finally(() => {
         setIsGoldDataLoading(false);
       });
-  };
+  }, []);
 
   const handleIncreaseDayAmount = () => {
     if (arrayDaysAmount < GOLD_DATA_TIME_SPAN) {
