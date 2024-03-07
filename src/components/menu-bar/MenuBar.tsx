@@ -1,9 +1,22 @@
-import { AppBar, Box, Container, Typography } from "@mui/material";
+import { AppBar, Avatar, Box, Container, Typography } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import "./MenuBar.css";
+import { deepOrange } from "@mui/material/colors";
+import { useState } from "react";
+import LogInDialog from "../login-dialog/LogInDialog";
 
 const MenuBar = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleDialogOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -75,6 +88,23 @@ const MenuBar = () => {
             >
               Currencies
             </Typography>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              {/* <Avatar
+              sx={{ bgcolor: deepOrange[500], width: 24, height: 24 }}
+              alt="Remy Sharp"
+              src="/broken-image.jpg"
+            >
+              B
+            </Avatar> */}
+              <Avatar
+                src="/broken-image.jpg"
+                onClick={() => {
+                  handleDialogOpen();
+                }}
+                sx={{ width: 24, height: 24, alignItems: "center" }}
+              />
+            </Box>
+            <LogInDialog isOpen={openDialog} onClose={handleDialogClose} />
           </Box>
         </Toolbar>
       </Container>
