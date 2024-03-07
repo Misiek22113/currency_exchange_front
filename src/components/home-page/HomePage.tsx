@@ -12,6 +12,7 @@ import CurrencyImg from "../../assets/Coins-amico.svg";
 import MenuBar from "../menu-bar/MenuBar";
 import HomePageImage from "../../assets/business-plan-amico.svg";
 import darkScrollbar from "@mui/material/darkScrollbar";
+import { LoginContext } from "./LoginContext";
 
 const darkTheme = createTheme({
   typography: {
@@ -53,6 +54,7 @@ const HomePage = () => {
   const [currencyTableDate, setCurrencyTableDate] = useState("");
   const [currencyGetError, setCurrencyGetError] = useState(false);
   const [isCurrencyDataLoading, setIsCurrencyDataLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     getCurrency();
@@ -87,76 +89,78 @@ const HomePage = () => {
           isCurrencyDataLoading,
         }}
       >
-        <MenuBar />
-        <Box className="home-page-container">
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <img
-              src={HomePageImage}
-              alt="home-page-img"
-              className="home-page-img"
-            />
-            <Typography
-              variant="h2"
-              align="center"
+        <LoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+          <MenuBar />
+          <Box className="home-page-container">
+            <Box
               sx={{
-                maxWidth: "70rem",
-                margin: "8rem auto",
-                fontSize: "5rem",
-                fontWeight: 700,
-                marginTop: "2rem",
-                lineHeight: "1",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
               }}
             >
-              <span className="pull-quote">CHECK</span>THE LATEST CURRENCY
-              EXCHANGE RATES, GOLD PRICES &
-              <span className="pull-quote">EASILY</span>CONVERT YOUR MONEY WITH
-              GOODY CONVERTER
-            </Typography>
+              <img
+                src={HomePageImage}
+                alt="home-page-img"
+                className="home-page-img"
+              />
+              <Typography
+                variant="h2"
+                align="center"
+                sx={{
+                  maxWidth: "70rem",
+                  margin: "8rem auto",
+                  fontSize: "5rem",
+                  fontWeight: 700,
+                  marginTop: "2rem",
+                  lineHeight: "1",
+                }}
+              >
+                <span className="pull-quote">CHECK</span>THE LATEST CURRENCY
+                EXCHANGE RATES, GOLD PRICES &
+                <span className="pull-quote">EASILY</span>CONVERT YOUR MONEY
+                WITH GOODY CONVERTER
+              </Typography>
+            </Box>
+            <Box className="currency-converter-container" id="converter">
+              <CurrencyConverter />
+              <img
+                src={CurrencyImg}
+                alt="currency-gif"
+                className="currency-img"
+              />
+            </Box>
+            <Box className="gold-section-container" id="gold-section">
+              <Typography
+                variant="h5"
+                align="center"
+                sx={{
+                  maxWidth: "70rem",
+                  margin: "0 auto",
+                  fontWeight: 700,
+                }}
+              >
+                CHECK THE LATEST GOLD PRICES UP TO 90 DAYS
+              </Typography>
+              <GoldSection />
+            </Box>
+            <Box className="currency-table-container" id="currencies-section">
+              <Typography
+                variant="h5"
+                align="center"
+                sx={{
+                  maxWidth: "70rem",
+                  margin: "4rem auto",
+                  fontWeight: 700,
+                }}
+              >
+                CHECK THE LATEST CURRENCY EXCHANGE RATES
+              </Typography>
+              <CurrencyTable />
+            </Box>
           </Box>
-          <Box className="currency-converter-container" id="converter">
-            <CurrencyConverter />
-            <img
-              src={CurrencyImg}
-              alt="currency-gif"
-              className="currency-img"
-            />
-          </Box>
-          <Box className="gold-section-container" id="gold-section">
-            <Typography
-              variant="h5"
-              align="center"
-              sx={{
-                maxWidth: "70rem",
-                margin: "0 auto",
-                fontWeight: 700,
-              }}
-            >
-              CHECK THE LATEST GOLD PRICES UP TO 90 DAYS
-            </Typography>
-            <GoldSection />
-          </Box>
-          <Box className="currency-table-container" id="currencies-section">
-            <Typography
-              variant="h5"
-              align="center"
-              sx={{
-                maxWidth: "70rem",
-                margin: "4rem auto",
-                fontWeight: 700,
-              }}
-            >
-              CHECK THE LATEST CURRENCY EXCHANGE RATES
-            </Typography>
-            <CurrencyTable />
-          </Box>
-        </Box>
+        </LoginContext.Provider>
       </CurrencyContext.Provider>
     </ThemeProvider>
   );

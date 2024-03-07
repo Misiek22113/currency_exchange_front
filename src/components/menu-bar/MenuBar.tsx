@@ -3,11 +3,21 @@ import Toolbar from "@mui/material/Toolbar";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import "./MenuBar.css";
 import { deepOrange } from "@mui/material/colors";
-import { useState } from "react";
-import LogInDialog from "../login-dialog/LogInDialog";
+import { useContext, useState } from "react";
+import { LoginContext } from "../home-page/LoginContext";
+import LoginMenu from "../login-dialog/LoginMenu";
+import LoginDialog from "../login-dialog/LogInDialog";
 
 const MenuBar = () => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const loginContext = useContext(LoginContext);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget);
+    setOpenMenu(true);
+  };
 
   const handleDialogOpen = () => {
     setOpenDialog(true);
@@ -89,22 +99,31 @@ const MenuBar = () => {
               Currencies
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              {/* <Avatar
-              sx={{ bgcolor: deepOrange[500], width: 24, height: 24 }}
-              alt="Remy Sharp"
-              src="/broken-image.jpg"
-            >
-              B
-            </Avatar> */}
-              <Avatar
-                src="/broken-image.jpg"
-                onClick={() => {
-                  handleDialogOpen();
-                }}
-                sx={{ width: 24, height: 24, alignItems: "center" }}
-              />
+              {loginContext.isLoggedIn ? (
+                <Avatar
+                  sx={{ bgcolor: deepOrange[500], width: 24, height: 24 }}
+                  alt="Remy Sharp"
+                  src="/broken-image.jpg"
+                  onClick={handleMenuOpen}
+                >
+                  B
+                </Avatar>
+              ) : (
+                <Avatar
+                  src="/broken-image.jpg"
+                  onClick={() => {
+                    handleDialogOpen();
+                  }}
+                  sx={{ width: 24, height: 24, alignItems: "center" }}
+                />
+              )}
             </Box>
-            <LogInDialog isOpen={openDialog} onClose={handleDialogClose} />
+            <LoginMenu
+              anchorEl={anchorEl}
+              isOpen={openMenu}
+              handleClose={() => setOpenMenu(false)}
+            />
+            <LoginDialog isOpen={openDialog} onClose={handleDialogClose} />
           </Box>
         </Toolbar>
       </Container>

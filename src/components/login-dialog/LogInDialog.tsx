@@ -6,19 +6,28 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import { LoginContext } from "../home-page/LoginContext";
+import { useContext, useState } from "react";
 
 export interface LogInDialogProps {
   isOpen: boolean;
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LogInDialog = ({ isOpen, onClose }: LogInDialogProps) => {
+const LoginDialog = ({ isOpen, onClose }: LogInDialogProps) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const loginContext = useContext(LoginContext);
+
   const handleOnClose = () => {
     onClose(false);
   };
 
   const handleOnLogin = () => {
-    onClose(false);
+    if (username === "admin" && password === "admin") {
+      loginContext.setIsLoggedIn(true);
+      onClose(false);
+    }
   };
 
   return (
@@ -31,6 +40,8 @@ const LogInDialog = ({ isOpen, onClose }: LogInDialogProps) => {
           id="username"
           label="Username"
           type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           fullWidth
         />
         <TextField
@@ -38,6 +49,8 @@ const LogInDialog = ({ isOpen, onClose }: LogInDialogProps) => {
           id="password"
           label="Password"
           type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           fullWidth
         />
       </DialogContent>
@@ -49,4 +62,4 @@ const LogInDialog = ({ isOpen, onClose }: LogInDialogProps) => {
   );
 };
 
-export default LogInDialog;
+export default LoginDialog;
