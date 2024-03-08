@@ -6,7 +6,7 @@ import { deepOrange } from "@mui/material/colors";
 import { useContext, useState } from "react";
 import { LoginContext } from "../home-page/LoginContext";
 import LoginMenu from "../login-dialog/LoginMenu";
-import LoginDialog from "../login-dialog/LogInDialog";
+import LoginDialog from "../login-dialog/LoginDialog";
 
 const MenuBar = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -106,7 +106,7 @@ const MenuBar = () => {
                   src="/broken-image.jpg"
                   onClick={handleMenuOpen}
                 >
-                  B
+                  A
                 </Avatar>
               ) : (
                 <Avatar

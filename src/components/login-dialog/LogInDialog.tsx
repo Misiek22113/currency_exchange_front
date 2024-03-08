@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { LoginContext } from "../home-page/LoginContext";
 import { useContext, useState } from "react";
+import axios from "axios";
 
 export interface LogInDialogProps {
   isOpen: boolean;
@@ -24,10 +25,20 @@ const LoginDialog = ({ isOpen, onClose }: LogInDialogProps) => {
   };
 
   const handleOnLogin = () => {
-    if (username === "admin" && password === "admin") {
-      loginContext.setIsLoggedIn(true);
-      onClose(false);
-    }
+    axios.post("http://localhost:4010/user/login", { username, password }).then(
+      (response) => {
+        if (response.data) {
+          loginContext.setIsLoggedIn(true);
+          loginContext.setUserId(response.data.userId);
+          onClose(false);
+        } else {
+          alert("Invalid username or password");
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   };
 
   return (

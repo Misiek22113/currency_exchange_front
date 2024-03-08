@@ -53,6 +53,7 @@ const HomePage = () => {
   const [currencyData, setCurrencyData] = useState<Currency[] | null>(null);
   const [currencyTableDate, setCurrencyTableDate] = useState("");
   const [currencyGetError, setCurrencyGetError] = useState(false);
+  const [userId, setUserId] = useState("");
   const [isCurrencyDataLoading, setIsCurrencyDataLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -89,7 +90,9 @@ const HomePage = () => {
           isCurrencyDataLoading,
         }}
       >
-        <LoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+        <LoginContext.Provider
+          value={{ isLoggedIn, setIsLoggedIn, userId, setUserId }}
+        >
           <MenuBar />
           <Box className="home-page-container">
             <Box
