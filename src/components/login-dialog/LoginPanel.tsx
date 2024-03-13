@@ -35,6 +35,14 @@ const LoginPanel = (props: TabPanelProps) => {
     setOpen(false);
   };
 
+  const handleEraseSignUpError = () => {
+    setSignUpError(false);
+  };
+
+  const handleEraseLoginError = () => {
+    setLoginError(false);
+  };
+
   const handleOnLogin = () => {
     axios.post("http://localhost:4010/user/login", { username, password }).then(
       (response) => {
@@ -75,36 +83,40 @@ const LoginPanel = (props: TabPanelProps) => {
   };
 
   return (
-    <div hidden={value !== index}>
-      <DialogTitle>{variant === "login" ? "Log Un" : "Sign Up"}</DialogTitle>
-      <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="username"
-          label="Username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          fullWidth
-        />
-        <TextField
-          margin="dense"
-          id="password"
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          fullWidth
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleOnClose}>Cancel</Button>
-        <Button onClick={variant === "login" ? handleOnLogin : handleOnSignUp}>
-          {variant === "login" ? "Log In" : "Sign Up"}
-        </Button>
-      </DialogActions>
-      {variant === "signup" ? (
+    <>
+      <div hidden={value !== index}>
+        <DialogTitle>{variant === "login" ? "Log Un" : "Sign Up"}</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="username"
+            label="Username"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            fullWidth
+          />
+          <TextField
+            margin="dense"
+            id="password"
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleOnClose}>Cancel</Button>
+          <Button
+            onClick={variant === "login" ? handleOnLogin : handleOnSignUp}
+          >
+            {variant === "login" ? "Log In" : "Sign Up"}
+          </Button>
+        </DialogActions>
+      </div>
+      {
         <Snackbar
           open={open}
           autoHideDuration={5000}
@@ -119,15 +131,15 @@ const LoginPanel = (props: TabPanelProps) => {
             Successfully signed up!
           </Alert>
         </Snackbar>
-      ) : null}
-      {signUpError ? (
+      }
+      {
         <Snackbar
-          open={open}
+          open={signUpError}
           autoHideDuration={5000}
-          onClose={handleCloseToast}
+          onClose={handleEraseSignUpError}
         >
           <Alert
-            onClose={handleCloseToast}
+            onClose={handleEraseSignUpError}
             severity="error"
             variant="filled"
             sx={{ width: "100%" }}
@@ -135,15 +147,15 @@ const LoginPanel = (props: TabPanelProps) => {
             Error signing up
           </Alert>
         </Snackbar>
-      ) : null}
-      {loginError ? (
+      }
+      {
         <Snackbar
-          open={open}
+          open={loginError}
           autoHideDuration={5000}
-          onClose={handleCloseToast}
+          onClose={handleEraseLoginError}
         >
           <Alert
-            onClose={handleCloseToast}
+            onClose={handleEraseLoginError}
             severity="error"
             variant="filled"
             sx={{ width: "100%" }}
@@ -151,8 +163,8 @@ const LoginPanel = (props: TabPanelProps) => {
             Error logging in
           </Alert>
         </Snackbar>
-      ) : null}
-    </div>
+      }
+    </>
   );
 };
 
